@@ -4,9 +4,10 @@ import Image from "next/image";
 import { useCart } from "../../contexts/CartContext";
 
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { checkout } from "../../lib/checkout";
 
 export default function Cart() {
-  const { items } = useCart();
+  const { items, addItem, removeOneItem, removeItem } = useCart();
   console.log("items: ", items);
   const subTotal = items.reduce(
     (acc, curr) => (acc += curr.price.unit_amount * curr.quantity),
@@ -18,6 +19,7 @@ export default function Cart() {
 
   const handleCheckout = (event) => {
     event.preventDefault();
+    console.log("items in cart page: ", items);
     checkout(items);
   };
   return (
@@ -152,7 +154,7 @@ export default function Cart() {
               <button
                 type="button"
                 className="font-medium text-emerald-600 hover:text-emerald-500"
-                onClick={() => setCartSliderIsOpen(false)}
+                // onClick={() => setCartSliderIsOpen(false)}
               >
                 Continue Shopping
                 <span aria-hidden="true"> &rarr;</span>
