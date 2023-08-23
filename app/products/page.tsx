@@ -1,23 +1,12 @@
-import Link from 'next/link';
-import Image from 'next/image';
-import { getAllPrices } from '../../lib/products';
-import Card from './Card';
+import Link from "next/link";
+import Image from "next/image";
+import { getAllPrices } from "../../lib/products";
+import Card from "./Card";
+import { Price } from "../../types/types";
+
 async function getPrices() {
   const prices = await getAllPrices();
   return prices;
-}
-interface Product {
-  images: string[];
-  description: string;
-  name: string;
-  [key: string]: any;
-}
-
-interface Price {
-  id: string;
-  product: Product;
-  unit_amount: number;
-  [key: string]: any;
 }
 
 export default async function Products() {
@@ -25,6 +14,7 @@ export default async function Products() {
   const { data } = prices;
   return (
     <main>
+      <Link href="/cart">Cart</Link>
       {data.map((price: Price) => (
         <Card key={price.id} price={price} />
       ))}
