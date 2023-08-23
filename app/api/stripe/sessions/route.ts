@@ -9,13 +9,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 export async function POST(req: NextRequest) {
-  console.log("post request");
-  const headersList = headers();
-  console.log("HEADERS: ", headersList);
-  // console.log("origin", headerList.origin.value);
   const headersInstance = headers();
-  const value = headersInstance.get("origin");
-  console.log("ORIGIN", value);
+  const origin = headersInstance.get("origin");
+  console.log("ORIGIN", origin);
   const { lineItems } = await req.json();
 
   // [
@@ -24,7 +20,7 @@ export async function POST(req: NextRequest) {
   // ];
 
   if (!lineItems.length) {
-    return NextResponse.json({ error: "Bad Request!" });
+    return NextResponse.json({ error: "Bad Request!" }, { status: 400 });
     // return res.status(400).json({ error: "Bad Request!" });
   }
   const adjustableQuantityLineItems = lineItems.map(
@@ -37,15 +33,15 @@ export async function POST(req: NextRequest) {
       },
     })
   );
-  console.log("adjustableQuantityLineItems", adjustableQuantityLineItems);
+
   const session = await stripe.checkout.sessions.create({
     line_items: adjustableQuantityLineItems,
     mode: "payment",
-    success_url: `${value}/checkout/success?sessionId={CHECKOUT_SESSION_ID}`,
-    cancel_url: value,
+    success_url: `${origin}/checkout/success?sessionId={CHECKOUT_SESSION_ID}`,
+    cancel_url: origin,
   });
-  console.log("session sucessfully created: ", session);
-  return NextResponse.json({ session });
+
+  return NextResponse.json({ session }, { status: 201 });
   // return res.status(201).json({ session });
 }
 
