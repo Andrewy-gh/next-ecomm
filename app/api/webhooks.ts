@@ -1,5 +1,5 @@
-import Stripe from 'stripe';
-import { buffer } from 'micro';
+import Stripe from "stripe";
+import { buffer } from "micro";
 
 export const config = {
   api: {
@@ -9,11 +9,12 @@ export const config = {
 
 export default async function webHookHandler(req: any, res: any) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2023-08-16',
+    apiVersion: "2023-08-16",
+    typescript: true,
   });
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     const buf = await buffer(req);
-    const sig = req.headers['stripe-signature'];
+    const sig = req.headers["stripe-signature"];
     const webhookSecret = process.env.STRIPE_WEBHOOK_SIGNING_SECRET;
 
     let event;

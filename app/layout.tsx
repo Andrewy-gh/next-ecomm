@@ -1,10 +1,25 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Archivo_Black, Archivo } from "next/font/google";
 
 import CartProvider from "../contexts/CartContext";
+import Header from "./components/header/index";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const archivo = Archivo({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-archivo",
+});
+
+const archivoBlack = Archivo_Black({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400"],
+  variable: "--font-archivo-black",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,8 +33,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <CartProvider>{children}</CartProvider>
+      <body className={`${archivo.variable} ${archivoBlack.variable}`}>
+        <CartProvider>
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <div className="grow">{children}</div>
+          </div>
+        </CartProvider>
       </body>
     </html>
   );
