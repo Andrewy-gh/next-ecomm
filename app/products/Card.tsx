@@ -1,7 +1,7 @@
-"use client";
-import Link from "next/link";
-import Image from "next/image";
-import { useCart } from "@/contexts/CartContext";
+'use client';
+import Link from 'next/link';
+import Image from 'next/image';
+import { useCart } from '@/contexts/CartContext';
 
 interface Product {
   images: string[];
@@ -22,7 +22,6 @@ export default function Card({ price }: { price: Price }) {
   const { addItem } = useCart();
 
   const addItemToCart = (price) => {
-    console.log("price: ", price);
     addItem(price);
   };
 
@@ -43,9 +42,9 @@ export default function Card({ price }: { price: Price }) {
         {product.name}
       </h3>
       <p className="mt-2 font-body text-step--1  text-light-text dark:text-dark-text font-medium">
-        {(unit_amount / 100).toLocaleString("en-US", {
-          style: "currency",
-          currency: "USD",
+        {(unit_amount / 100).toLocaleString('en-US', {
+          style: 'currency',
+          currency: 'USD',
         })}
       </p>
       <button onClick={() => addItemToCart(price)}>Add to cart</button>

@@ -21,10 +21,8 @@ export default async function webHookHandler(req: any, res: any) {
       if (!sig || !webHookHandler) return;
       event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
     } catch (error) {
-      console.log(`Webhook error: ${error.message}`);
       return res.status(400).send(`Webhook error: ${error.message}`);
     }
-    console.log('event', event);
 
     res.status(200).send();
   }

@@ -1,14 +1,13 @@
-"use client";
-import Link from "next/link";
-import Image from "next/image";
-import { useCart } from "../../contexts/CartContext";
+'use client';
+import Link from 'next/link';
+import Image from 'next/image';
+import { useCart } from '../../contexts/CartContext';
 
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import { checkout } from "../../lib/checkout";
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import { checkout } from '../../lib/checkout';
 
 export default function Cart() {
   const { items, addItem, removeOneItem, removeItem } = useCart();
-  console.log("items: ", items);
   const subTotal = items.reduce(
     (acc, curr) => (acc += curr.price.unit_amount * curr.quantity),
     0
@@ -19,7 +18,6 @@ export default function Cart() {
 
   const handleCheckout = (event) => {
     event.preventDefault();
-    console.log("items in cart page: ", items);
     checkout(items);
   };
   return (
@@ -32,7 +30,7 @@ export default function Cart() {
           <div className="flex items-start justify-between">
             <div className="text-lg font-medium text-gray-900">
               {/* <Dialog.Title className="text-lg font-medium text-gray-900"> */}
-              Shopping cart{" "}
+              Shopping cart{' '}
             </div>
             {/* </Dialog.Title> */}
             <div className="ml-3 flex h-7 items-center">
@@ -73,16 +71,16 @@ export default function Cart() {
                             <div className="flex justify-between text-base font-medium text-gray-900">
                               <h3>
                                 <a href={price.product.href}>
-                                  {" "}
-                                  {price.product.name}{" "}
+                                  {' '}
+                                  {price.product.name}{' '}
                                 </a>
                               </h3>
                               <p className="ml-4">
                                 {(price.unit_amount / 100).toLocaleString(
-                                  "en-US",
+                                  'en-US',
                                   {
-                                    style: "currency",
-                                    currency: "USD",
+                                    style: 'currency',
+                                    currency: 'USD',
                                   }
                                 )}
                               </p>
@@ -130,9 +128,9 @@ export default function Cart() {
           <div className="flex justify-between text-base font-medium text-gray-900">
             <p>Subtotal</p>
             <p>
-              {(subTotal / 100).toLocaleString("en-US", {
-                style: "currency",
-                currency: "USD",
+              {(subTotal / 100).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
               })}
             </p>
           </div>
@@ -150,7 +148,7 @@ export default function Cart() {
           </div>
           <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
             <p>
-              or{" "}
+              or{' '}
               <button
                 type="button"
                 className="font-medium text-emerald-600 hover:text-emerald-500"
