@@ -1,26 +1,56 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
-import { useEffect } from "react";
-import useSWR from "swr";
-import { useSearchParams } from "next/navigation";
+'use client';
+import { useEffect, useState } from 'react';
+import useSWR from 'swr';
+import { useSearchParams } from 'next/navigation';
 
-import { useCart } from "../../../contexts/CartContext";
+import { useCart } from '../../../contexts/CartContext';
 
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
+// const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export default function CheckoutSuccessPage() {
   const searchParams = useSearchParams();
-
+  const sessionId = searchParams.get('sessionId');
+  console.log('====================================');
+  console.log('sessionId in success page', sessionId);
+  console.log('====================================');
+  const [checkoutSession, setCheckoutSession] = useState('');
   const { resetCart } = useCart();
   useEffect(() => {
     resetCart();
   }, [resetCart]);
-  const sessionId = searchParams.get("sessionId");
 
-  const URL = sessionId ? `/api/stripe/sessions/${sessionId}` : null;
-  const { data: checkoutSession, error } = useSWR(URL, fetcher);
-  console.log("checkoutSession: ", checkoutSession);
-  if (error) return <div>failed to load the session</div>;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (sessionId) {
+          const URL = sessionId ? `/api/stripe/sessions/${sessionId}` : null;
+          const response = await fetch(URL, {
+            method: 'GET',
+          });
+          const data = await response.json();
+          console.log('====================================');
+          console.log('data', data);
+          console.log('====================================');
+          console.log('====================================');
+          console.log('checkoutSession: ', data.checkoutSession);
+          console.log('====================================');
+          setCheckoutSession(data.checkoutSession);
+        }
+      } catch (error) {
+        alert(error);
+      }
+    };
+    fetchData();
+  }, [sessionId]);
+
+  // const URL = sessionId ? `/api/stripe/sessions/${sessionId}` : null;
+  // console.log('====================================');
+  // console.log('URL', URL);
+  // console.log('====================================');
+  // const { data: checkoutSession, error } = useSWR(URL, fetcher);
+  // returned undefined
+  // if (error) return <div>failed to load the session</div>;
 
   const customer = checkoutSession?.customer_details;
   const products = checkoutSession?.line_items?.data?.map((item) => ({
@@ -35,7 +65,9 @@ export default function CheckoutSuccessPage() {
   const total = checkoutSession?.amount_total;
   const discount = checkoutSession?.total_details?.amount_discount;
   const tax = checkoutSession?.total_details?.amount_tax;
-
+  console.log('====================================');
+  console.table({ customer, products, payment, subtotal, discount, tax });
+  console.log('====================================');
   return (
     <div>Sucessfully checked out again</div>
     //   <div className="bg-white">
