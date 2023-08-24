@@ -5,6 +5,7 @@ import { Archivo_Black, Archivo } from "next/font/google";
 
 import CartProvider from "../contexts/CartContext";
 import Header from "./components/header/index";
+import Footer from "./components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,6 +39,7 @@ export default function RootLayout({
           <div className="flex flex-col min-h-screen">
             <Header />
             <div className="grow">{children}</div>
+            <Footer />
           </div>
         </CartProvider>
       </body>
