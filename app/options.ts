@@ -1,6 +1,6 @@
-import type { NextAuthOptions } from "next-auth";
-import GitHubProvider from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
+import type { NextAuthOptions } from 'next-auth';
+import GitHubProvider from 'next-auth/providers/github';
+import GoogleProvider from 'next-auth/providers/google';
 export const options: NextAuthOptions = {
   providers: [
     GitHubProvider({
@@ -12,6 +12,9 @@ export const options: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
+  session: {
+    strategy: 'jwt',
+  },
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
   },

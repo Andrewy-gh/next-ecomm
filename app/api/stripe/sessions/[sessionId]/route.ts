@@ -7,6 +7,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function GET(req: NextRequest, { params }) {
   const { sessionId } = params;
+
   if (!sessionId.startsWith('cs_')) {
     throw Error('Incorrect Checkout Session ID.');
   }

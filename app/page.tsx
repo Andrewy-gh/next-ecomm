@@ -1,10 +1,10 @@
-import Link from "next/link";
-import LoginButton from "./components/LoginButton";
-import LogoutButton from "./components/LogoutButton";
-import { getServerSession } from "next-auth/next";
-import { options } from "./options";
+import Link from 'next/link';
+import LoginButton from './components/LoginButton';
+import LogoutButton from './components/LogoutButton';
+import { getServerSession } from 'next-auth/next';
+import { options } from './options';
 
-import Image from "next/image";
+import Image from 'next/image';
 
 export default async function Home() {
   const session = await getServerSession(options);
@@ -18,10 +18,10 @@ export default async function Home() {
   const loginButtons = (
     <>
       <div className="mb-1">
-        <LoginButton provider={"github"} />
+        <LoginButton provider={'github'} />
       </div>
       <div>
-        <LoginButton provider={"google"} />
+        <LoginButton provider={'google'} />
       </div>
     </>
   );
